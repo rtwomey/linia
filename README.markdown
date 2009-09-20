@@ -1,12 +1,12 @@
 About
-=====
+-----
 This script is designed to be a simple, self-contained (as much as possible) 
 Perl script for gathering hardware information. System administrators often 
 find it difficult to keep track of just what hardware is in which system. This 
 script seeks to ease that burden.
 
 System Requirements
-===================
+-------------------
 The get_inventory.pl script has not been extensively tested. I have used it 
 for normal operations in a Linux computer lab (approx. 30 machines), as well 
 as on my personal systems. I know it requires the following:
@@ -27,14 +27,14 @@ simply included them here to make installation easier.  Contact their authors
 if you have questions regarding their modules.
 
 Availability
-============
+------------
 I have dual-licensed this script under the Apache Software License ver2.0 and 
 the GPL. You can choose which license you wish to apply to yourself. This 
 script is available at http://www.dracoware.com/ppl/rtwomey/inventory.html 
 (and is where all future versions of this program will be located).
 
 Contact Me
-==========
+----------
 Please send me an email if you found this program useful (or if you had any 
 problems with it). Suggestions for future improvements are also welcome. My 
 email address is rtwomey -AT- dracoware -DOT- com. Thanks
