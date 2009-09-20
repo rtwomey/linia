@@ -1,13 +1,13 @@
 #!/usr/bin/perl -w
-# Ryan's Linux Inventory Script version 2.1 (December 30th, 2008)
+# Ryan's Linux Inventory Script version 2.5 (September 20th, 2009)
 # 
 # This program is designed to gather Linux hardware information, such as 
 # total installed memory, disk sizes and model names, CPU information, and 
 # more.
 #
-# If you like this program, please send me an email to rtwomey@dracoware.com
+# If you like this program, please send me an email to rtwomey -AT- dracoware -DOT- com
 # 
-# Copyright 2004 - 2008 Ryan Twomey
+# Copyright 2004 - 2009 Ryan Twomey
 #
 # This script is dual-licensed under the Apache License, Version 2.0 and 
 # the GNU General Public License Version 2.  You choose which license you 
@@ -57,6 +57,7 @@
 #   2.0 January 26th, 2006 - Added SCSI support and IDE disk cleanup.  Also 
 #                            released under dual license (GPL & Apache v2)
 #   2.1 December 30th, 2008 - Minor bug fixes - immeëmosol
+#   2.5 September 20, 2009 - Added USB scan (Jay Ridgley)
 
 use strict;
 use Sys::Hostname;
@@ -75,6 +76,9 @@ sub main()
 	my $pci_hw = get_pci_hardware();
 	my $kernel = get_kernel();
 	
+	# add USB scan - CDJ Systems 07/25/09
+	my $usb_list = get_usb_info();
+	
 	# print out the report
 	print "Statistics of machine '" . $host . "'\n";
 	print "  * " . $cpuinfo . "\n";
@@ -83,6 +87,7 @@ sub main()
 	print $netinfo;
 	print $allnetinfo;
 	print $pci_hw;
+	print $usb_list;
 	print $disk_info;
 }
 
@@ -118,6 +123,28 @@ sub get_pci_hardware()
 	}
 
 	return $hw;
+}
+
+# get_usb_info - get the USB info - CDJ Systems - 07/25/09
+sub get_usb_info()
+{
+	my $usb = "";
+
+	open(PIPE, "lsusb|sort|") || die "Couldn't execute lsusb";
+	my $output = <PIPE>;
+	close(PIPE);
+
+	$usb .= "  * USB Information:\n";
+	
+	chomp $output;
+	my @lines = split("\n", $output);
+	foreach my $line (@lines)
+	{
+		chomp $line;
+		$usb .= "\t$line\n";
+	}
+	
+	return $usb;
 }
 
 # get_kernel - get the linux kernel we're running
@@ -344,14 +371,14 @@ sub get_cpu_info()
 	
 	if($cpus > 1)
 	{
-		$rep .= "s: ";
+		$rep .= "s:\n";
 		my $i = 1;
 		
 		# go through each cpu
 		foreach my $cpu ( $cpuinfo->cpus() ) {
-			$rep .= "; " if($i > 1);
-			$rep .= "CPU$i = " . $cpu->model_name();
-			$rep .= " @ " . $cpu->cpu_mhz() . "MHz";
+			$rep .= " " if($i > 1);
+         $rep .= "\tCPU$i = " . $cpu->model_name();
+         $rep .= " @ " . $cpu->cpu_mhz() . "MHz\n";
 			$i++;
 		}
 	}
