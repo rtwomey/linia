@@ -40,7 +40,9 @@ problems with it). Suggestions for future improvements are also welcome. My
 email address is rtwomey -AT- dracoware -DOT- com. Thanks
 
 Contributions (Special Thanks)
+
 * Rolf Holtsmark
 * Andrew Medico
 * Neil Quiogue
 * John Vestrum
+
